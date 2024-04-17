@@ -15,17 +15,20 @@ const ItemList=({items})=>{
         // clear notification after 3 seconds
         setTimeout(() => {
             setNotification(null);
-        }, 3000);
+        }, 2000);
 
     }
 
     return (
     <div> 
+        
      {notification && (
-                <div className="bg-green-400 text-white p-2 mb-4 rounded-lg">
+                <div className="fixed top-0 left-0 w-full bg-yellow-100 text-black p-3 z-50 shadow-md  border-b-4 border-green-400">
+
                     {notification}
                 </div>
             )}
+            
             {items.map((item)=>(
              <div key={item.card.info.id} className="p-2 m-2 border-gray-200 border-b-2 text-left flex justify-between"> 
           
