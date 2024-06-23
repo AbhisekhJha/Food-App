@@ -17,42 +17,44 @@ const Body = () => {
 //whenever state variable update,react triggers ar reconciliation cycle(re-renders the component)
    // console.log(listOfRestaurants)
 
-    async function fetchData() {
-        try {
-            const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING");
-            const json = await data.json();
+    // async function fetchData() {
+    //     try {
+    //         const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING");
+    //         const json = await data.json();
 
 
-          //  console.log(json)
-            let restaurants;
-            for (const card of json.data.cards) {
-                if (card.card?.card?.gridElements?.infoWithStyle?.restaurants) {
-                    restaurants = card.card.card.gridElements.infoWithStyle.restaurants;
-                    break;
-                }
-            }
+    //       //  console.log(json)
+    //         let restaurants;
+    //         for (const card of json.data.cards) {
+    //             if (card.card?.card?.gridElements?.infoWithStyle?.restaurants) {
+    //                 restaurants = card.card.card.gridElements.infoWithStyle.restaurants;
+    //                 break;
+    //             }
+    //         }
 
-            if (restaurants) {
-                setListOfRestaurant(restaurants);
-                setFilteredRestaurants(restaurants);
-            } else {
-                console.error("Restaurant data not found in the response");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
+    //         if (restaurants) {
+    //             setListOfRestaurant(restaurants);
+    //             setFilteredRestaurants(restaurants);
+    //         } else {
+    //             console.error("Restaurant data not found in the response");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error);
+    //     }
+    //}
+
+    async function fetchData(){
+        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+        const json=await data.json();
+        console.log(json)
+
+        setListOfRestaurant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilteredRestaurants(json?.data?.cards[1]?.card?.card.gridElements?.infoWithStyle?.restaurants);
+        //console.log(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants)
     }
 
-    // async function fetchData(){
-    //     const data = await fetch("https://www.swiggy.com/mapi/homepage/getCards?lat=12.9351929&lng=77.62448069999999");
-    //     const json=await data.json();
-    //     console.log(json)
-
-    //     setListOfRestaurant(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
-    //     setFilteredRestaurants(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants);
-    //     //console.log(json?.data?.success?.cards[4]?.gridWidget?.gridElements?.infoWithStyle?.restaurants)
-    // }
-
+    
+    
     useEffect(() => {
         fetchData();
     }, []);
